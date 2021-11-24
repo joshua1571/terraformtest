@@ -44,10 +44,7 @@
 
 name: 'Terraform'
 
-on:
-  push:
-    - $default-branch
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   terraform:
