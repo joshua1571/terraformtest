@@ -43,6 +43,10 @@ add resource to import.tf
 az group show --name myTFResourceGroup --query id --output tsv 
 terraform import azurerm_resource_group.myTFResourceGroup <output_from_previous_command>
 
+Github actions workflow
+On PR Run all the way through to terraform plan
+On Merge run all the way through to terraform apply
+
 Ran across a service principal permission issue, probably easier to delete previous resource group and start over
 
 
