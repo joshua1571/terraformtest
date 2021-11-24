@@ -8,6 +8,8 @@ terraform {
   }
 
   backend "remote" {
+    hostname = "app.terraform.io"
+
     # The name of your Terraform Cloud organization.
     organization = "joshua1571"
 
@@ -22,6 +24,7 @@ terraform {
 }
 
 provider "azurerm" {
+  skip_provider_registration = "true"
   features {}
 }
 

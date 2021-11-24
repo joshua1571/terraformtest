@@ -25,12 +25,25 @@ Azure Terraform Extension
 
 ### General Notes
 How will we maintain our terraform state? Just use terraform cloud for now
+Need to create a CLI only workspace, otherwise this will conflict with the github actions runner
 Created TF_API_TOKEN from terraform cloud and added to terraformtest repo
 Need to get auth credentials for the github actions runner to my azure subscription
-Will need to create an azure service principal using the az command
-az account show - to view the current subscription in use
-az ad sp create-for-rbac --name terraformServicePrincipal --role Contributor
-add the resulting tokens to repo secrets
+az account list
+copy the value for "id" 
+az account subscription show --subscription-id "<id>"
+az ad sp create-for-rbac --name "TF-ServicePrincipal" --role="Contributor" --scopes="/subscriptions/XXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX"
+add the resulting secrets to either the terraform cloud variables or into the github repo as secrets
+ARM_CLIENT_ID: ${{ secrets.az_client_id }}
+ARM_CLIENT_SECRET: ${{ secrets.az_client_secret }}
+ARM_SUBSCRIPTION_ID: ${{ secrets.az_subscription_id }}
+ARM_TENANT_ID: ${{ secrets.az_tenant_id }}
+
+Problem: myTFResourceGroup already exists from a previous tfstate, need to import and run terraform init before continuing with new tfstate
+add resource to import.tf
+az group show --name myTFResourceGroup --query id --output tsv 
+terraform import azurerm_resource_group.myTFResourceGroup <output_from_previous_command>
+
+Ran across a service principal permission issue, probably easier to delete previous resource group and start over
 
 
 ### Learning materials
@@ -41,6 +54,7 @@ https://learn.hashicorp.com/tutorials/terraform/azure-destroy?in=terraform/azure
 https://learn.hashicorp.com/tutorials/terraform/azure-variables?in=terraform/azure-get-started  
 https://learn.hashicorp.com/tutorials/terraform/azure-outputs?in=terraform/azure-get-started  
 https://learn.hashicorp.com/tutorials/terraform/azure-remote?in=terraform/azure-get-started  
+https://jloudon.com/cloud/Using-GitHub-Actions-and-Terraform-for-IaC-Automation/
 
 
 #### Reference Links
