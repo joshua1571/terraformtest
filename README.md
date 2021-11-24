@@ -24,8 +24,13 @@ Azure Terraform Extension
 ---
 
 ### General Notes
-How will we maintain our terraform state?
-
+How will we maintain our terraform state? Just use terraform cloud for now
+Created TF_API_TOKEN from terraform cloud and added to terraformtest repo
+Need to get auth credentials for the github actions runner to my azure subscription
+Will need to create an azure service principal using the az command
+az account show - to view the current subscription in use
+az ad sp create-for-rbac --name terraformServicePrincipal --role Contributor
+add the resulting tokens to repo secrets
 
 
 ### Learning materials

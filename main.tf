@@ -7,6 +7,16 @@ terraform {
     }
   }
 
+  backend "remote" {
+         # The name of your Terraform Cloud organization.
+         organization = "joshua1571"
+
+         # The name of the Terraform Cloud workspace to store Terraform state files in.
+         workspaces {
+           name = "terraformtest"
+         }
+       }
+
   required_version = ">= 0.14.9"
 }
 
